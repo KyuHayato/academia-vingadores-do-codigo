@@ -1,0 +1,1182 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Academia dos Vingadores do Código</title>
+    <style>
+      :root {
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        color-scheme: light;
+        --bg: #f6f0e0;
+        --card: #fffdf6;
+        --tx: #17171f;
+        --mut: #63636f;
+        --red: #e62429;
+        --gold: #ffc61a;
+        --ok: #14914f;
+        --ink: #17171f;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          color-scheme: dark;
+          --bg: #0f0f18;
+          --card: #1a1a27;
+          --tx: #f3f3f8;
+          --mut: #a3a3b8;
+          --ink: #000;
+        }
+      }
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+        --bg: #0f0f18;
+        --card: #1a1a27;
+        --tx: #f3f3f8;
+        --mut: #a3a3b8;
+        --ink: #000;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--tx);
+        font:
+          16px/1.55 system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+      }
+      .t {
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+        font-weight: 400;
+        letter-spacing: 0.03em;
+      }
+      header {
+        background: var(--red)
+          radial-gradient(rgba(0, 0, 0, 0.18) 1.5px, transparent 1.6px) 0 0/9px
+          9px;
+        color: #fff;
+        padding: 16px 20px;
+        border-bottom: 5px solid var(--ink);
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      header h1 {
+        margin: 0;
+        font-size: clamp(1.6rem, 4vw, 2.4rem);
+        line-height: 1.05;
+        text-shadow: 3px 3px 0 var(--ink);
+      }
+      .xp {
+        flex: 1;
+        min-width: 220px;
+      }
+      #lv {
+        font-weight: 700;
+        margin-bottom: 5px;
+        text-shadow: 1px 1px 0 var(--ink);
+      }
+      .bar {
+        height: 14px;
+        background: var(--ink);
+        border-radius: 9px;
+        overflow: hidden;
+        border: 2px solid var(--ink);
+      }
+      .bar i {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: var(--gold);
+        transition: width 0.5s;
+      }
+      .wrap {
+        display: flex;
+        gap: 18px;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 18px;
+      }
+      nav {
+        width: 235px;
+        flex: none;
+        position: sticky;
+        top: 10px;
+        align-self: flex-start;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      nav button {
+        text-align: left;
+        background: var(--card);
+        color: var(--tx);
+        border: 2px solid var(--ink);
+        border-radius: 6px;
+        padding: 8px 10px;
+        font: inherit;
+        font-size: 0.92rem;
+        cursor: pointer;
+      }
+      nav button.on {
+        background: var(--gold);
+        color: #17171f;
+        box-shadow: 3px 3px 0 var(--ink);
+      }
+      main {
+        flex: 1;
+        min-width: 0;
+      }
+      main h2 {
+        font-size: 2rem;
+        margin: 0 0 4px;
+      }
+      code {
+        background: rgba(127, 127, 127, 0.2);
+        padding: 1px 6px;
+        border-radius: 4px;
+        font-size: 0.9em;
+      }
+      .c {
+        background: var(--card);
+        border: 3px solid var(--ink);
+        border-radius: 6px;
+        padding: 14px;
+        margin: 14px 0;
+        box-shadow: 5px 5px 0 var(--ink);
+      }
+      .tabs {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+      }
+      .tabs button {
+        background: transparent;
+        color: var(--tx);
+        border: 2px solid var(--ink);
+        border-radius: 6px;
+        padding: 5px 12px;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .tabs button.on {
+        background: var(--red);
+        color: #fff;
+      }
+      textarea.code {
+        width: 100%;
+        min-height: 170px;
+        background: #0c0c14;
+        color: #e9e9f2;
+        border: 0;
+        border-radius: 6px;
+        padding: 12px;
+        font:
+          14px/1.55 ui-monospace,
+          Menlo,
+          Consolas,
+          monospace;
+        resize: vertical;
+        tab-size: 2;
+        white-space: pre;
+      }
+      .in {
+        width: 100%;
+        margin-top: 8px;
+        padding: 8px;
+        border: 2px solid var(--ink);
+        border-radius: 6px;
+        font: inherit;
+        background: var(--card);
+        color: var(--tx);
+      }
+      .b {
+        border: 2px solid var(--ink);
+        border-radius: 6px;
+        padding: 8px 16px;
+        font: inherit;
+        font-weight: 800;
+        cursor: pointer;
+        background: var(--red);
+        color: #fff;
+        box-shadow: 3px 3px 0 var(--ink);
+      }
+      .b:active {
+        transform: translate(2px, 2px);
+        box-shadow: 1px 1px 0 var(--ink);
+      }
+      .b.g {
+        background: var(--card);
+        color: var(--tx);
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .hint {
+        color: var(--mut);
+        font-size: 0.85rem;
+        margin: 8px 0;
+      }
+      .stage {
+        margin-top: 10px;
+        min-height: 80px;
+        background: #1b1230;
+        color: #fff;
+        border-radius: 6px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+      .ln {
+        background: rgba(255, 255, 255, 0.1);
+        border-left: 5px solid var(--gold);
+        padding: 5px 10px;
+        border-radius: 4px;
+        white-space: pre-wrap;
+        animation: in 0.3s;
+      }
+      .er {
+        border-color: #ff5560;
+        color: #ffc0c5;
+      }
+      @keyframes in {
+        from {
+          opacity: 0;
+          transform: translateX(-14px);
+        }
+      }
+      .cd {
+        background: var(--red);
+        border: 2px solid #fff;
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 6px;
+        min-width: 66px;
+        text-align: center;
+        font-weight: 700;
+        animation: in 0.3s;
+      }
+      .cd small {
+        display: block;
+        font-size: 0.7rem;
+        color: var(--gold);
+      }
+      .hp {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .hp div {
+        flex: 1;
+        height: 16px;
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .hp i {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, #e62429, #ffc61a);
+        transition: width 0.7s;
+      }
+      .q .b {
+        display: block;
+        width: 100%;
+        text-align: left;
+        margin: 8px 0;
+        background: var(--card);
+        color: var(--tx);
+      }
+      .q .b.ok {
+        background: var(--ok);
+        color: #fff;
+      }
+      .q .b.no {
+        background: var(--red);
+        color: #fff;
+      }
+      #fb {
+        font-weight: 700;
+      }
+      #toast {
+        position: fixed;
+        right: 16px;
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+        background: var(--gold);
+        color: #17171f;
+        font-weight: 800;
+        padding: 10px 18px;
+        border: 3px solid var(--ink);
+        border-radius: 6px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: 0.3s;
+        pointer-events: none;
+      }
+      #toast.s {
+        opacity: 1;
+        transform: none;
+      }
+      .an {
+        border-left: 6px solid var(--red);
+        background: rgba(230, 36, 41, 0.1);
+        padding: 8px 12px;
+        border-radius: 0 6px 6px 0;
+      }
+      .arena {
+        position: relative;
+        height: 160px;
+        margin-top: 10px;
+        overflow: hidden;
+        border: 3px solid var(--ink);
+        border-radius: 6px;
+        background: linear-gradient(#24155a, #6b2a7a 62%, #e8604c);
+      }
+      .arena::before {
+        content: "";
+        position: absolute;
+        inset: auto 0 0;
+        height: 60px;
+        background: repeating-linear-gradient(
+          90deg,
+          #150b2b 0 26px,
+          #1f1140 26px 40px,
+          #150b2b 40px 58px,
+          transparent 58px 64px
+        );
+      }
+      .arena::after {
+        content: "";
+        position: absolute;
+        inset: auto 0 0;
+        height: 16px;
+        background: #0c0618;
+        border-top: 3px solid var(--gold);
+      }
+      .ph {
+        position: absolute;
+        top: 35%;
+        left: 0;
+        right: 0;
+        text-align: center;
+        color: #fff;
+        opacity: 0.85;
+        z-index: 2;
+      }
+      .sp,
+      .fx {
+        position: absolute;
+        z-index: 2;
+        font-style: normal;
+        line-height: 1;
+      }
+      .sp {
+        bottom: 16px;
+        font-size: 44px;
+      }
+      .fx {
+        bottom: 56px;
+        font-size: 36px;
+        opacity: 0;
+      }
+      .sp span {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-30%);
+        white-space: nowrap;
+        font:
+          700 12px system-ui,
+          sans-serif;
+        background: #fff;
+        color: #17171f;
+        border: 2px solid #17171f;
+        border-radius: 8px;
+        padding: 2px 8px;
+        margin-bottom: 2px;
+      }
+      button:focus-visible,
+      textarea:focus-visible,
+      input:focus-visible {
+        outline: 3px solid var(--gold);
+        outline-offset: 2px;
+      }
+      @media (max-width: 780px) {
+        .wrap {
+          flex-direction: column;
+          padding: 12px;
+        }
+        nav {
+          width: 100%;
+          position: static;
+          flex-direction: row;
+          overflow-x: auto;
+          padding-bottom: 6px;
+        }
+        nav button {
+          white-space: nowrap;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1 class="t">🛡️ Academia dos Vingadores do Código</h1>
+      <div class="xp">
+        <div id="lv"></div>
+        <div class="bar"><i id="xb"></i></div>
+      </div>
+    </header>
+    <div class="wrap">
+      <nav id="nav"></nav>
+      <main id="main"></main>
+    </div>
+    <div id="toast"></div>
+    <script>
+      const L = [
+        {
+          i: "📥",
+          t: "Entrada, processamento, saída",
+          d: "Todo programa segue 3 passos: <b>entrada</b> (dados que chegam), <b>processamento</b> (cálculos e decisões) e <b>saída</b> (o resultado). <code>prompt()</code> pede um dado ao usuário e <code>console.log()</code> mostra a saída. Aqui, o campo abaixo simula o prompt.",
+          a: "Pense na S.H.I.E.L.D.: o Nick Fury recebe um alerta (entrada), os agentes analisam e montam o plano (processamento) e o Quinjet leva os Vingadores à missão (saída).",
+          x: [
+            [
+              "prompt",
+              `// ENTRADA
+const nome = prompt("Qual o nome do herói?");
+const nivel = Number(prompt("Nível de poder (1 a 10)?"));
+// PROCESSAMENTO
+const forca = nivel * 1000;
+// SAÍDA
+console.log("Herói:", nome);
+bar("Poder", forca, 10000);`,
+              "p",
+            ],
+          ],
+          q: [
+            "Qual comando mostra a saída no console?",
+            ["console.log()", "prompt()", "Number()"],
+            0,
+          ],
+        },
+        {
+          i: "🏷️",
+          t: "Tipos de dados",
+          d: 'Cada valor tem um tipo: <code>string</code> (texto), <code>number</code>, <code>boolean</code> (verdadeiro/falso), <code>undefined</code> e <code>null</code>. O <code>typeof</code> revela o tipo. Curiosidade: <code>typeof null</code> dá "object" (um velho erro do JavaScript).',
+          a: "Cada tipo é uma categoria de informação sobre o herói: string é o nome no crachá, number é o nível de poder, boolean responde “o Hulk está furioso? sim ou não”, undefined é o herói que ainda não foi recrutado e null é a vaga deixada vazia de propósito na equipe.",
+          x: [
+            [
+              "typeof",
+              `const nome = "Tony Stark";   // string
+const idade = 48;          // number
+const genio = true;        // boolean
+let armadura;              // undefined
+const inimigo = null;      // null (vazio de propósito)
+for (const v of [nome, idade, genio, armadura, inimigo]) {
+  log(v, "→", typeof v);
+}`,
+            ],
+          ],
+          q: [
+            "O que typeof null retorna?",
+            ['"null"', '"object"', '"undefined"'],
+            1,
+          ],
+        },
+        {
+          i: "🧰",
+          t: "Arrays e objetos",
+          d: "<b>Array</b> é uma lista ordenada (começa no índice 0). <b>Objeto</b> guarda dados em pares chave: valor, como a ficha de um herói.",
+          a: "O array é a fila de formação dos Vingadores: cada herói tem uma posição numerada, começando em 0. O objeto é a ficha da S.H.I.E.L.D. de um herói: nome, poder e armas, cada dado com o seu rótulo.",
+          x: [
+            [
+              "array",
+              `const vingadores = ["Thor", "Hulk", "Viúva Negra"];
+vingadores.push("Homem-Aranha");   // adiciona no fim
+vingadores.shift();                // remove o primeiro
+cards(vingadores);
+log("Tamanho:", vingadores.length, "| índice 0:", vingadores[0]);`,
+            ],
+            [
+              "objeto",
+              `const heroi = {
+  nome: "Homem de Ferro",
+  poder: 90,
+  vivo: true,
+  armas: ["Repulsor", "Míssil"]
+};
+heroi.poder += 5;
+log(heroi.nome, "→", heroi["poder"]);
+cards(Object.keys(heroi));
+bar(heroi.nome, heroi.poder);`,
+            ],
+          ],
+          q: [
+            "Qual é o índice do primeiro item de um array?",
+            ["1", "0", "-1"],
+            1,
+          ],
+        },
+        {
+          i: "➕",
+          t: "Operadores",
+          d: "<b>Aritméticos</b> calculam (<code>+ - * / % **</code>), <b>comparativos</b> comparam (<code>&gt; &lt; === !==</code>) e <b>lógicos</b> combinam condições: <code>&amp;&amp;</code> (E), <code>||</code> (OU) e <code>!</code> (NÃO).",
+          a: "Os aritméticos somam os poderes do time. Os comparativos são o duelo Thor contra Hulk para ver quem é mais forte. Os lógicos são as regras da missão: só entra quem tem poder E coragem (&amp;&amp;), basta ter escudo OU martelo (||) e vilões NÃO passam (!).",
+          x: [
+            [
+              "operadores",
+              `const thor = 80, hulk = 75;
+log("Soma:", thor + hulk, "| Resto:", thor % 7, "| Potência:", 2 ** 3);
+log("thor > hulk ?", thor > hulk);
+log("thor === 80 ?", thor === 80, "| thor !== hulk ?", thor !== hulk);
+log("Os dois acima de 70?", thor > 70 && hulk > 70);
+log("Algum acima de 90?", thor > 90 || hulk > 90);
+log("Hulk fraco?", !(hulk > 70));`,
+            ],
+          ],
+          q: ["Qual operador compara valor E tipo?", ["==", "=", "==="], 2],
+        },
+        {
+          i: "🔀",
+          t: "Condicionais",
+          d: "Fazem o programa escolher um caminho. <code>if / else</code> testa condições; <code>switch / case</code> compara um valor com várias opções. Mude o número e execute de novo!",
+          a: "O if / else é a decisão do Capitão América em campo: SE o inimigo é fraco, ataca; SENÃO SE há civis em risco, protege; SENÃO, recua. O switch é o painel do Nick Fury: conforme o herói escolhido, ele ativa um plano diferente.",
+          x: [
+            [
+              "if / else",
+              `const energia = 55;
+if (energia > 80) {
+  log("⚡ Thor invoca o trovão!");
+} else if (energia > 40) {
+  log("🔨 Thor ataca com o Mjölnir");
+} else {
+  log("😴 Thor descansa");
+}
+bar("Energia", energia);`,
+            ],
+            [
+              "switch",
+              `const heroi = "hulk";
+switch (heroi) {
+  case "thor": log("⚡ Trovão!"); break;
+  case "hulk": log("💚 HULK ESMAGA!"); break;
+  case "homem de ferro": log("🤖 Repulsores ativados"); break;
+  default: log("Herói desconhecido");
+}`,
+            ],
+          ],
+          q: [
+            "Qual comando impede o switch de seguir para o próximo case?",
+            ["stop", "break", "end"],
+            1,
+          ],
+        },
+        {
+          i: "🔁",
+          t: "Repetição",
+          d: "Laços repetem código sem copiar e colar. <code>for</code> quando sabemos quantas vezes; <code>while</code> enquanto a condição for verdadeira; <code>do...while</code> roda ao menos uma vez; <code>for...of</code> percorre listas.",
+          a: "É o treino dos Vingadores: o for é repetir 5 golpes de escudo; o while é lutar enquanto o vilão ainda estiver de pé; o do...while é lançar o escudo ao menos uma vez antes de ver se acertou; o for...of é o Thanos passando por cada Joia do Infinito da lista.",
+          x: [
+            [
+              "for",
+              `// for (início; condição; passo)
+for (let i = 1; i <= 5; i++) {
+  log("🔨 Golpe de Thor número", i);
+}`,
+            ],
+            [
+              "while",
+              `let vida = 100;      // vida do vilão
+while (vida > 0) {
+  vida -= 30;
+  log("💥 Vilão com", Math.max(vida, 0), "de vida");
+}`,
+            ],
+            [
+              "do...while",
+              `let lancamentos = 0;
+do {
+  lancamentos++;
+  log("🛡️ Escudo lançado", lancamentos, "x");
+} while (lancamentos < 3);   // roda ao menos 1 vez`,
+            ],
+            [
+              "for...of",
+              `const joias = ["Espaço", "Mente", "Realidade", "Poder", "Tempo", "Alma"];
+for (const joia of joias) {
+  log("💎 Joia do", joia);
+}
+cards(joias);`,
+            ],
+          ],
+          q: [
+            "Qual laço sempre executa pelo menos uma vez?",
+            ["for", "while", "do...while"],
+            2,
+          ],
+        },
+        {
+          i: "⚙️",
+          t: "Funções",
+          d: "Função é uma habilidade reutilizável: recebe <b>parâmetros</b>, faz algo e pode devolver um valor com <code>return</code>. A <b>arrow function</b> (<code>=&gt;</code>) é a forma curta.",
+          a: "Uma função é uma habilidade que o herói treina uma vez e usa quando quiser: o lançar escudo do Capitão recebe um alvo (parâmetro), faz o ataque e devolve o resultado (return). A arrow function é a versão enxuta da mesma habilidade.",
+          x: [
+            [
+              "função",
+              `function ataque(heroi, dano = 10) {
+  return heroi + " causa " + dano + " de dano";
+}
+const dobro = (n) => n * 2;      // arrow function
+log(ataque("Hulk", 50));
+log(ataque("Gavião Arqueiro"));  // usa o dano padrão
+log("Dobro de 21:", dobro(21));`,
+            ],
+          ],
+          q: [
+            "O que o return faz?",
+            [
+              "Imprime na tela",
+              "Devolve um valor da função",
+              "Repete a função",
+            ],
+            1,
+          ],
+        },
+        {
+          i: "🧪",
+          t: "Métodos de array",
+          d: "Funções prontas que usam outra função como argumento. <code>map</code> transforma, <code>filter</code> filtra, <code>reduce</code> resume tudo em um valor, <code>forEach</code> percorre e <code>find</code> acha o primeiro que passa no teste.",
+          a: "Imagine a fila de heróis entrando na Torre dos Vingadores: o map é a oficina do Tony Stark colocando uma armadura em cada um; o filter é a triagem que só deixa passar quem tem mais de 80 de poder; o reduce soma o poder de todos em um único placar; o forEach é a chamada nominal; o find é o Fury procurando o primeiro herói que atende ao pedido.",
+          x: [
+            [
+              "map",
+              `const poderes = [90, 95, 60];
+const dobrados = poderes.map(p => p * 2);   // transforma cada item
+cards(dobrados);`,
+            ],
+            [
+              "filter",
+              `const herois = [{n:"Thor",p:90},{n:"Hulk",p:95},{n:"Viúva Negra",p:60}];
+const fortes = herois.filter(h => h.p > 80);  // mantém quem passa no teste
+cards(fortes.map(h => h.n));`,
+            ],
+            [
+              "reduce",
+              `const poderes = [90, 95, 60];
+const total = poderes.reduce((soma, p) => soma + p, 0);  // 0 = valor inicial
+log("Poder total do time:", total);`,
+            ],
+            [
+              "forEach",
+              `["Thor", "Hulk", "Loki"].forEach((nome, i) => {
+  log((i + 1) + "º " + nome);
+});   // só percorre, não devolve nada`,
+            ],
+            [
+              "find",
+              `const herois = [{n:"Thor",p:90},{n:"Hulk",p:95}];
+log(herois.find(h => h.n === "Hulk"));           // 1º que passa no teste
+log("Algum > 94?", herois.some(h => h.p > 94));  // pelo menos um
+log("Todos > 94?", herois.every(h => h.p > 94)); // todos`,
+            ],
+          ],
+          q: [
+            "Qual método resume o array inteiro em um único valor?",
+            ["map", "filter", "reduce"],
+            2,
+          ],
+        },
+        {
+          i: "📦",
+          t: "Módulos",
+          d: 'Módulos dividem o código em arquivos. <code>export</code> libera algo e <code>import</code> traz para outro arquivo. No HTML use <code>&lt;script type="module"&gt;</code> e abra o site por um servidor local (ex.: Live Server). Aqui simulamos os dois arquivos.',
+          a: "Cada herói tem a sua própria base: a oficina do Tony, o arsenal de Wakanda. O export é liberar uma arma para os aliados e o import é buscá-la na base do outro. Assim ninguém precisa carregar o arsenal inteiro.",
+          x: [
+            [
+              "export / import",
+              `// heroi.js
+export const nome = "Capitão América";
+export function saudar(alguem) {
+  return "Avante, " + alguem + "!";
+}
+// main.js
+// No HTML use: script type="module"
+import { nome, saudar } from "./heroi.js";
+log(nome + " diz: " + saudar("Vingadores"));`,
+              "m",
+            ],
+          ],
+          q: [
+            "Qual palavra libera algo de um arquivo para outro?",
+            ["export", "import", "return"],
+            0,
+          ],
+        },
+        {
+          i: "⏳",
+          t: "Assincronia",
+          d: "Algumas tarefas demoram (buscar dados, esperar). Com <code>Promise</code>, <code>async</code> e <code>await</code> o programa espera sem travar o resto. Veja a ordem das mensagens!",
+          a: "É o Quinjet em missão: o Fury manda o aviso e não fica parado olhando o céu, continua coordenando a equipe enquanto espera. A Promise é a promessa de que o Quinjet vai chegar (ou falhar) e o await é o Fury aguardando o relatório só na hora em que precisa dele.",
+          x: [
+            [
+              "async / await",
+              `const espera = (ms) => new Promise(ok => setTimeout(ok, ms));
+async function missao() {
+  log("🚀 Quinjet decolando...");
+  await espera(1000);          // pausa sem travar o resto
+  log("🌍 Chegou em Nova York!");
+  await espera(1000);
+  log("🏁 Missão cumprida!");
+}
+missao();
+log("Eu apareço primeiro!");`,
+            ],
+            [
+              "Promise",
+              `const buscar = (heroi) =>
+  new Promise((ok, erro) =>
+    setTimeout(() => heroi ? ok("Dados de " + heroi) : erro("Sem herói!"), 800));
+buscar("Thor").then(log);
+buscar("").catch(r => log("❌ " + r));`,
+            ],
+          ],
+          q: [
+            "O que o await faz dentro de uma função async?",
+            [
+              "Espera a Promise terminar",
+              "Cria um laço",
+              "Declara uma variável",
+            ],
+            0,
+          ],
+        },
+        {
+          i: "✨",
+          t: "JavaScript avançado",
+          d: "Recursos modernos que deixam o código mais curto e legível: desestruturação, rest/spread, template literals e operadores seguros.",
+          a: "Desestruturar é abrir a mala do herói e pegar só o item que importa (o martelo, não o capacete). O rest junta todos os reforços que chegam em um único grupo; o spread espalha os membros de um time para formar uma equipe nova. O template literal é o letreiro automático da Torre, que troca o nome do herói na mensagem.",
+          x: [
+            [
+              "desestruturação",
+              `const heroi = { nome: "Thor", poder: 90, arma: "Mjölnir" };
+const { nome, arma } = heroi;                         // objeto
+const [primeiro, segundo] = ["Hulk", "Loki", "Odin"]; // array
+log(nome, "usa", arma);
+log(primeiro, "e", segundo);`,
+            ],
+            [
+              "rest / spread",
+              `const soma = (...nums) => nums.reduce((a, b) => a + b, 0);  // rest: junta
+log("Soma:", soma(10, 20, 30));
+const time1 = ["Thor", "Hulk"];
+const time2 = [...time1, "Loki", "Vision"];           // spread: espalha
+cards(time2);
+const [lider, ...resto] = time2;
+log(lider, "lidera", resto.length, "heróis");`,
+            ],
+            [
+              "template literals",
+              `const nome = "Homem-Aranha", nivel = 7;
+const msg = \`\${nome} está no nível \${nivel}!
+Próximo nível: \${nivel + 1} 🕷️\`;
+log(msg);`,
+            ],
+            [
+              "?. e ??",
+              `const heroi = { nome: "Groot" };
+log(heroi.arma?.nome);        // ?. evita erro se não existir
+log(heroi.vida ?? 100);       // ?? valor padrão se for null/undefined`,
+            ],
+          ],
+          q: [
+            "Para que servem os três pontos (...)?",
+            ["Comentar código", "Espalhar ou agrupar itens", "Dividir números"],
+            1,
+          ],
+        },
+        {
+          i: "🚨",
+          t: "try / catch / finally",
+          d: "Erros acontecem! <code>try</code> tenta executar, <code>catch</code> captura o erro sem derrubar o programa, <code>finally</code> roda sempre e <code>throw</code> cria um erro.",
+          a: "É o plano de contingência da S.H.I.E.L.D.: tente a missão (try); se algo der errado, o plano B entra em ação (catch) em vez de a equipe inteira cair; e o finally é o relatório final, entregue vencendo ou perdendo.",
+          x: [
+            [
+              "try / catch",
+              `try {
+  log("🔍 Abrindo arquivo da S.H.I.E.L.D....");
+  const dados = JSON.parse("{ heroi: Thor }");   // JSON inválido!
+  log(dados);
+} catch (erro) {
+  log("🚨 Falha:", erro.name);
+} finally {
+  log("🔒 Sempre executa: fechando o arquivo");
+}`,
+            ],
+            [
+              "throw",
+              `function lutar(poder) {
+  if (poder < 50) throw new Error("Poder baixo demais!");
+  return "Vitória!";
+}
+try {
+  log(lutar(80));
+  log(lutar(20));
+} catch (e) {
+  log("🚨", e.message);
+} finally {
+  log("Fim da luta");
+}`,
+            ],
+          ],
+          q: [
+            "Qual bloco executa SEMPRE, com ou sem erro?",
+            ["try", "catch", "finally"],
+            2,
+          ],
+        },
+      ];
+      const NIV = [
+        ["Recruta", 0],
+        ["Agente da S.H.I.E.L.D.", 100],
+        ["Vingador", 200],
+        ["Herói Supremo", 350],
+        ["Mestre do Código", 500],
+      ];
+      const $ = (s) => document.querySelector(s);
+      let S = { xp: 0, ran: {}, ok: {} },
+        cur = 0,
+        tab = 0;
+      try {
+        S = JSON.parse(localStorage.getItem("avg") || "null") || S;
+      } catch (e) {}
+      function toast(t) {
+        const e = $("#toast");
+        e.textContent = t;
+        e.className = "s";
+        clearTimeout(toast.h);
+        toast.h = setTimeout(() => (e.className = ""), 1500);
+      }
+      function hud() {
+        let l = 0;
+        NIV.forEach((n, i) => {
+          if (S.xp >= n[1]) l = i;
+        });
+        const a = NIV[l][1],
+          b = l < 4 ? NIV[l + 1][1] : a + 1;
+        $("#lv").textContent =
+          "Nível " + (l + 1) + ": " + NIV[l][0] + " (" + S.xp + " XP)";
+        $("#xb").style.width =
+          (l == 4 ? 100 : ((S.xp - a) / (b - a)) * 100) + "%";
+      }
+      function gain(n, k, bag) {
+        if (S[bag][k]) return;
+        S[bag][k] = 1;
+        S.xp += n;
+        try {
+          localStorage.setItem("avg", JSON.stringify(S));
+        } catch (e) {}
+        toast("+" + n + " XP");
+        hud();
+        nav();
+      }
+      function nav() {
+        $("#nav").innerHTML = L.map(
+          (l, i) =>
+            `<button class="${i == cur ? "on" : ""}" onclick="go(${i})">${l.i} ${l.t}${S.ok[i] ? " ✅" : ""}</button>`,
+        ).join("");
+      }
+      function go(i) {
+        cur = i;
+        tab = 0;
+        nav();
+        view();
+      }
+      function view() {
+        const l = L[cur],
+          x = l.x[tab];
+        $("#main").innerHTML =
+          `<h2 class="t">${l.i} ${l.t}</h2><p>${l.d}</p><p class="an">🎬 <b>Analogia Marvel:</b> ${l.a}</p><div class="c"><div class="tabs">${l.x.map((y, i) => `<button class="${i == tab ? "on" : ""}" onclick="tab=${i};view()">${y[0]}</button>`).join("")}</div><textarea id="cd" class="code" spellcheck="false" aria-label="Código"></textarea>${x[2] == "p" ? '<input id="pi" class="in" value="Thor, 8" aria-label="Respostas do prompt" placeholder="Respostas separadas por vírgula">' : ""}<p class="hint">✏️ Edite o código e execute de novo. Ajudantes visuais: <code>log()</code>, <code>cards()</code>, <code>bar()</code>.${x[2] == "p" ? " Responda os prompts na ordem, separando por vírgula." : ""}</p><div class="row"><button class="b" onclick="run()">▶ Executar</button><button class="b g" onclick="$('#cd').value=L[cur].x[tab][1]">↺ Restaurar</button></div><div class="arena" id="ar" aria-hidden="true"><b class="ph">▶ Execute o código e veja os heróis em ação</b></div><div class="stage" id="st" aria-live="polite"></div></div><div class="c q" id="q"></div>`;
+        $("#cd").value = x[1];
+        quiz();
+      }
+      function mod(c) {
+        const [a, b] = c.split("// main.js");
+        const ex = [...a.matchAll(/export (?:const|function) (\w+)/g)].map(
+          (m) => m[1],
+        );
+        return (
+          "const __m=(()=>{" +
+          a.replace(/export /g, "") +
+          "\nreturn {" +
+          ex +
+          "}})();\n" +
+          b.replace(
+            /import\s*\{([^}]*)\}\s*from\s*['"][^'"]+['"];?/,
+            (m, n) => "const {" + n + "} = __m;",
+          )
+        );
+      }
+      async function run() {
+        const st = $("#st");
+        st.innerHTML = "";
+        $("#ar").innerHTML = "";
+        run.n = (run.n || 0) + 1;
+        const id = run.n;
+        let Q = Promise.resolve(),
+          code = $("#cd").value,
+          k = 0;
+        const f = (v) => {
+          if (typeof v == "string") return v;
+          if (v === undefined) return "undefined";
+          try {
+            return JSON.stringify(v);
+          } catch (e) {
+            return String(v);
+          }
+        };
+        const el = (c, t, p) => {
+          const d = document.createElement("div");
+          d.className = c;
+          d.textContent = t;
+          (p || st).append(d);
+          return d;
+        };
+        const enq = (fn) => {
+          Q = Q.then(() => id == run.n && fn());
+        };
+        const log = (...a) => {
+          const t = a.map(f).join(" ");
+          enq(async () => {
+            el("ln", t);
+            await act(t);
+          });
+        };
+        const cards = (a) => {
+          const v = [...a].map(f);
+          enq(async () => {
+            const r = el("row", "");
+            v.forEach((x, i) => {
+              const c = el("cd", x, r),
+                s = document.createElement("small");
+              s.textContent = "[" + i + "]";
+              c.prepend(s);
+            });
+            await form(v);
+          });
+        };
+        const bar = (n, v, m = 100) => {
+          const p = Math.max(0, Math.min(100, (v / m) * 100));
+          enq(async () => {
+            const h = el("hp", ""),
+              s = document.createElement("span"),
+              d = document.createElement("div"),
+              i = document.createElement("i");
+            s.textContent = n;
+            d.append(i);
+            h.append(s, d);
+            setTimeout(() => (i.style.width = p + "%"), 60);
+            await act(n + ": " + Math.round(p) + "%", "c");
+          });
+        };
+        const pv = ($("#pi") ? $("#pi").value : "")
+          .split(",")
+          .map((s) => s.trim());
+        const prompt = (m) => {
+          log("❓ " + m);
+          const v = pv[k++] ?? "";
+          log("⌨️ " + v);
+          return v;
+        };
+        try {
+          if (L[cur].x[tab][2] == "m") code = mod(code);
+          await new Function(
+            "log",
+            "console",
+            "prompt",
+            "cards",
+            "bar",
+            "alert",
+            "return (async()=>{" + code + "\n})()",
+          )(log, { log }, prompt, cards, bar, log);
+        } catch (e) {
+          enq(async () => {
+            el("ln er", "💥 " + e.name + ": " + e.message);
+            await act("💥 " + e.name);
+          });
+        }
+        await Q;
+        gain(10, cur + "." + tab, "ran");
+      }
+      const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+      const HR = [
+        [/thor|mj.lnir|trov|raio/i, "⚡", "🔨"],
+        [/hulk|esmaga/i, "💚", "💥"],
+        [/ferro|tony|repulsor|armadura|m.ssil/i, "🤖", "💫"],
+        [/capit|escudo|avante/i, "🛡️", "💫"],
+        [/vi.va/i, "🖤", "✨"],
+        [/aranha|teia/i, "🕷️", "🕸️"],
+        [/gavi|flecha/i, "🏹", "🎯"],
+        [/loki/i, "🐍", "✨"],
+        [/groot/i, "🌳", "🌿"],
+        [/vision|joia/i, "💎", "✨"],
+        [/vil.o|thanos/i, "👹", "💥"],
+        [/quinjet|miss.o|decol|chegou/i, "🚀", "☁️"],
+        [/falha|erro|🚨|💥/i, "😵", "🔥"],
+      ];
+      let hc = 0;
+      function spr(h, x, t) {
+        const d = document.createElement("div");
+        d.className = "sp";
+        d.textContent = h;
+        d.style.left = x + "%";
+        if (t) {
+          const b = document.createElement("span");
+          b.textContent = t.replace(/\n/g, " ").slice(0, 34);
+          d.append(b);
+        }
+        $("#ar").append(d);
+        return d;
+      }
+      async function act(t, k) {
+        const r = HR.find((a) => a[0].test(t)) || [
+            0,
+            ["⚡", "🛡️", "🤖", "💚", "🖤", "🏹"][hc++ % 6],
+            "✨",
+          ],
+          x = 12 + Math.random() * 50,
+          d = spr(r[1], x, t),
+          fx = document.createElement("i");
+        fx.className = "fx";
+        fx.textContent = k == "c" ? "⚡" : r[2];
+        fx.style.left = x + 9 + "%";
+        $("#ar").append(fx);
+        d.animate(
+          [
+            { transform: "translateX(-140px) scale(.5)", opacity: 0 },
+            { transform: "none", opacity: 1 },
+          ],
+          { duration: 300, easing: "ease-out" },
+        );
+        setTimeout(() => {
+          d.animate(
+            k == "c"
+              ? [
+                  { transform: "none", filter: "none" },
+                  {
+                    transform: "scale(1.5)",
+                    filter: "drop-shadow(0 0 14px #ffc61a) brightness(1.8)",
+                  },
+                  { transform: "none", filter: "none" },
+                ]
+              : [
+                  { transform: "none" },
+                  { transform: "translateX(40px) rotate(20deg) scale(1.2)" },
+                  { transform: "none" },
+                ],
+            { duration: 450 },
+          );
+          fx.animate(
+            [
+              { opacity: 1, transform: "scale(.3)" },
+              { opacity: 1, transform: "scale(1.8)" },
+              { opacity: 0, transform: "scale(2.5)" },
+            ],
+            { duration: 650, fill: "forwards" },
+          );
+        }, 300);
+        setTimeout(() => {
+          d.animate(
+            [{ opacity: 1 }, { opacity: 0, transform: "translateY(-24px)" }],
+            { duration: 400, fill: "forwards" },
+          );
+          setTimeout(() => {
+            d.remove();
+            fx.remove();
+          }, 400);
+        }, 1200);
+        await sleep(700);
+      }
+      async function form(v) {
+        const n = Math.min(v.length, 8);
+        for (let i = 0; i < n; i++) {
+          const d = spr(
+            ["⚡", "🛡️", "🤖", "💚", "🖤", "🏹", "🕷️", "🌳"][i],
+            6 + i * (84 / n),
+            v[i].slice(0, 14),
+          );
+          d.animate(
+            [
+              { transform: "translateY(-100px) scale(.3)", opacity: 0 },
+              { transform: "none", opacity: 1 },
+            ],
+            { duration: 350, easing: "ease-out" },
+          );
+          setTimeout(() => {
+            d.animate([{ opacity: 1 }, { opacity: 0 }], {
+              duration: 500,
+              fill: "forwards",
+            });
+            setTimeout(() => d.remove(), 500);
+          }, 1900);
+          await sleep(220);
+        }
+        await sleep(300);
+      }
+      function quiz() {
+        const q = L[cur].q;
+        $("#q").innerHTML =
+          "<b>🎯 Missão: " +
+          q[0] +
+          "</b>" +
+          q[1]
+            .map(
+              (o, i) =>
+                `<button class="b" onclick="ans(${i},this)">${o}</button>`,
+            )
+            .join("") +
+          '<div id="fb">' +
+          (S.ok[cur] ? "✅ Missão já cumprida!" : "") +
+          "</div>";
+      }
+      function ans(i, b) {
+        if (i == L[cur].q[2]) {
+          b.classList.add("ok");
+          $("#fb").textContent = "✅ Correto, herói! +30 XP";
+          gain(30, cur, "ok");
+        } else {
+          b.classList.add("no");
+          $("#fb").textContent = "❌ Quase! Releia o código e tente de novo.";
+        }
+      }
+      hud();
+      nav();
+      view();
+    </script>
+  </body>
+</html>
